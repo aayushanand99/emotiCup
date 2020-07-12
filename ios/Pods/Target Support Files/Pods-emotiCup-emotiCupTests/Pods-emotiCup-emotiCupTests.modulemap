@@ -1,0 +1,6 @@
+module Pods_emotiCup_emotiCupTests {
+  umbrella header "Pods-emotiCup-emotiCupTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
