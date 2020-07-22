@@ -5,8 +5,9 @@
 //  Created by aayush-anand on 22/07/20.
 //
 
-#ifndef IOSWifiManager_h
-#define IOSWifiManager_h
+#import <Foundation/Foundation.h>
+#import <React/RCTBridgeModule.h>
 
+@interface IOSWifiManager : NSObject <RCTBridgeModule>
 
-#endif /* IOSWifiManager_h */
+@end /* IOSWifiManager_h */
