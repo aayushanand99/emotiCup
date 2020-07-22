@@ -8,7 +8,7 @@ import {
   Keyboard,
   TouchableOpacity,
 } from 'react-native';
-// import WifiManager from 'react-native-wifi-reborn';
+import WifiManager from 'react-native-wifi-reborn';
 import {wifiCurrentSSID} from '../wifiManager';
 
 export default class Test extends Component {
@@ -30,19 +30,19 @@ export default class Test extends Component {
 
   connectToWifi = () => {
     let that = this;
-    // WifiManager.connectToProtectedSSID(
-    //   this.state.name,
-    //   this.state.password,
-    //   false,
-    // ).then(
-    //   () => {
-    //     that.setState({status: 'Connected successfully!'});
-    //   },
-    //   () => {
-    //     that.setState({status: 'Connection failed!'});
-    //   },
-    // );
-    alert(wifiCurrentSSID());
+    WifiManager.connectToProtectedSSID(
+      this.state.name,
+      this.state.password,
+      false,
+    ).then(
+      () => {
+        that.setState({status: 'Connected successfully!'});
+      },
+      () => {
+        that.setState({status: 'Connection failed!'});
+      },
+    );
+    // alert(wifiCurrentSSID());
   };
 
   detectSSID = () => {

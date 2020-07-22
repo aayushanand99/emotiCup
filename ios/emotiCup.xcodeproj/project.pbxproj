@@ -17,6 +17,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* emotiCupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* emotiCupTests.m */; };
 		3038BE12F1607B1F57F2F7C5 /* libPods-emotiCup-emotiCupTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE1819F69C024581006B0C5 /* libPods-emotiCup-emotiCupTests.a */; };
 		3ABF196C24C8782C004D4511 /* IOSWifiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABF196B24C8782C004D4511 /* IOSWifiManager.m */; };
+		3ABF196F24C890FA004D4511 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABF196E24C890FA004D4511 /* NetworkExtension.framework */; };
+		3ABF197124C89100004D4511 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABF197024C89100004D4511 /* ExternalAccessory.framework */; };
 		7038D255ADC3716D38053933 /* libPods-emotiCup.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0891CD1FF96845055073E9F2 /* libPods-emotiCup.a */; };
 		7AA60EB72D9EF0295B85FD27 /* libPods-emotiCup-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19CD13FC248D8CF3945E3502 /* libPods-emotiCup-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -58,6 +60,9 @@
 		2D02E4901E0B4A5D006451C7 /* emotiCup-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "emotiCup-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ABF196A24C85A5E004D4511 /* IOSWifiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSWifiManager.h; sourceTree = "<group>"; };
 		3ABF196B24C8782C004D4511 /* IOSWifiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSWifiManager.m; sourceTree = "<group>"; };
+		3ABF196D24C88EC6004D4511 /* emotiCup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = emotiCup.entitlements; path = emotiCup/emotiCup.entitlements; sourceTree = "<group>"; };
+		3ABF196E24C890FA004D4511 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		3ABF197024C89100004D4511 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		4E74F1E97F58595D356C5143 /* libPods-emotiCup-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-emotiCup-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CC1592ED25E8C459488D94 /* Pods-emotiCup-emotiCupTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emotiCup-emotiCupTests.debug.xcconfig"; path = "Target Support Files/Pods-emotiCup-emotiCupTests/Pods-emotiCup-emotiCupTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = emotiCup/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -85,7 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ABF197124C89100004D4511 /* ExternalAccessory.framework in Frameworks */,
 				7038D255ADC3716D38053933 /* libPods-emotiCup.a in Frameworks */,
+				3ABF196F24C890FA004D4511 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +135,7 @@
 		13B07FAE1A68108700A75B9A /* emotiCup */ = {
 			isa = PBXGroup;
 			children = (
+				3ABF196D24C88EC6004D4511 /* emotiCup.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -144,6 +152,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3ABF197024C89100004D4511 /* ExternalAccessory.framework */,
+				3ABF196E24C890FA004D4511 /* NetworkExtension.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				0891CD1FF96845055073E9F2 /* libPods-emotiCup.a */,
@@ -660,6 +670,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = emotiCup/emotiCup.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = emotiCup/Info.plist;
@@ -683,6 +694,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = emotiCup/emotiCup.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = emotiCup/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
