@@ -53,5 +53,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BreeBold.otf</string>
+		<string>Expressa-Serial-Regular.ttf</string>
+		<string>Dessau-Medium.ttf</string>
+		<string>Dessau Bold.ttf</string>
+	</array>
 </dict>
 </plist>
