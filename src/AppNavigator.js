@@ -3,7 +3,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Test, Login, ScannerPage} from './components';
+import {Test, Login, Home, ScannerPage} from './components';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,12 @@ function AppNavigator() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ScannerPage"
+          name="Home"
+          component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Scanner"
           component={ScannerPage}
           options={{headerShown: false}}
         />

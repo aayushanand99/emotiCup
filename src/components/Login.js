@@ -27,7 +27,7 @@ export default class Login extends Component {
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{name: 'ScannerPage'}],
+        routes: [{name: 'Home'}],
       }),
     );
   };

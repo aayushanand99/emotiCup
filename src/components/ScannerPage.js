@@ -1,19 +1,58 @@
 import React, {Component} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Text,
-  TextInput,
-  StyleSheet,
-  Dimensions,
-  Image,
-  Keyboard,
-} from 'react-native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-export default class Scannerpage extends Component {
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {RNCamera} from 'react-native-camera';
+import colors from '../utils/colors';
+
+export default class ScannerPage extends Component {
+  constructor(props) {
+    super(props);
+  }
+  onSuccess = (e) => {
+    Linking.openURL(e.data).catch((err) =>
+      console.error('An error occured', err),
+    );
+  };
   render() {
-    return <View style={{flex: 1, backgroundColor: 'pink'}}></View>;
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <QRCodeScanner
+          onRead={this.onSuccess}
+          flashMode={RNCamera.Constants.FlashMode.torch}
+          topContent={
+            <Text style={styles.centerText}>
+              Go to{' '}
+              <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+              your computer and scan the QR code.
+            </Text>
+          }
+          bottomContent={
+            <TouchableOpacity style={styles.buttonTouchable}>
+              <Text style={styles.buttonText}>OK. Got it!</Text>
+            </TouchableOpacity>
+          }
+        />
+      </View>
+    );
   }
 }
+const styles = StyleSheet.create({
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777',
+  },
+  textBold: {
+    fontWeight: '500',
+    color: '#000',
+  },
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)',
+  },
+  buttonTouchable: {
+    padding: 16,
+  },
+});
