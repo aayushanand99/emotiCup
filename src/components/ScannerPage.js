@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import Toast from 'react-native-simple-toast';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
@@ -10,16 +11,16 @@ export default class ScannerPage extends Component {
     super(props);
   }
   onSuccess = (e) => {
-    Linking.openURL(e.data).catch((err) =>
-      console.error('An error occured', err),
-    );
+    this.props.navigation.navigate('ProductPage', {
+      QRData: e.data,
+    });
   };
   render() {
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <QRCodeScanner
           onRead={this.onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
+          //flashMode={RNCamera.Constants.FlashMode.torch}
           topContent={
             <Text style={styles.centerText}>
               Go to{' '}
