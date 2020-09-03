@@ -11,7 +11,11 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        
+        <Stack.Screen
+          name="ProductPage"
+          component={ProductPage}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
@@ -27,11 +31,8 @@ function AppNavigator() {
           component={ScannerPage}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="ProductPage"
-          component={ProductPage}
-          options={{headerShown: false}}
-        />
+        
+        
         <Stack.Screen
           name="Dispense"
           component={Dispense}

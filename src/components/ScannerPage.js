@@ -14,6 +14,7 @@ export default class ScannerPage extends Component {
     this.props.navigation.navigate('ProductPage', {
       QRData: e.data,
     });
+    //Toast.show(e.data);
   };
   render() {
     return (

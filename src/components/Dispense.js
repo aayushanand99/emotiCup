@@ -26,7 +26,8 @@ import { Icon } from 'react-native-elements'
 export default class Dispense extends Component {
     constructor(props) {
       super(props); 
-      //this.selectedProduct = props.route.params.key;  
+      this.selectedProduct = props.route.params.key; 
+      this.machineUrl = props.route.params.machineUrl; 
       
       this.state = {
         progress: 0,
@@ -35,6 +36,12 @@ export default class Dispense extends Component {
     }
 
     componentDidMount() {
+        const urlToCall = this.machineUrl+ this.selectedProduct.urlAddress;
+        fetch(urlToCall)
+        .then((response) => response.json())
+        .catch((error) => console.error(error))
+        
+
         BackgroundTimer.stopBackgroundTimer();
     }
 
@@ -43,6 +50,7 @@ export default class Dispense extends Component {
     }
 
     progress() {
+        console.log("dispense");
         let progress = 0;
         this.setState({ progress });
         this.intervalID = setInterval(() => {
@@ -57,12 +65,14 @@ export default class Dispense extends Component {
       }
 
     dispenseProduct = () => {
+        console.log("dispense");
         this.setState({ modalVisible: false})
         this.progress();
         fetch('http://192.168.1.101/hot_water');
     }
 
     cancelDispense() {
+        console.log("cancelDispence");
         this.setState({ modalVisible: false})
         this.props.navigation.dispatch(
             CommonActions.reset({

@@ -28,9 +28,8 @@ export default class ThankYou extends Component {
               routes: [{name: 'Home'}],
             }),
           );
-          
           }, 
-        15000); 
+        5000); 
     }
 
     componentWillUnmount() {
