@@ -12,7 +12,8 @@ export default class OptionsScreen extends Component {
         super(props);
         this.state = {
             spinner: false,
-            keys: this.props.route.params.keys
+            keys: props.route.params.keys,
+            ssid: props.route.params.ssid,
         }
 
         this.data = [
@@ -118,45 +119,12 @@ export default class OptionsScreen extends Component {
         BackgroundTimer.stopBackgroundTimer();
     }
 
-    // timeoutNavigate = () => {
-    //     this.timeout = setTimeout(() => {
-    //         this.navigateToScanner();
-    //     }, 15000);
-    // }
-
-    // navigateToScanner = () => {
-    //     this.props.navigation.dispatch(
-    //         CommonActions.reset({
-    //             index: 0,
-    //             routes: [{ name: "Scanner" }],
-    //         })
-    //     );
-    // }
 
     callApi = (data) => {
-        // this.setState({
-        //     spinner: true,
-        // })
-        // fetch(data.url).then(response => {
-        //     this.setState({
-        //         spinner: false,
-        //     })
-        //     const statusCode = response.status;
-        //     if (statusCode == 200) {
-        //         this.navigateToCountdown(data);
-        //     }
-        //     else {
-        //         alert("Please wait.");
-        //     }
-        // }).catch(error => {
-        //     this.setState({
-        //         spinner: false,
-        //     })
-        //     alert("Please wait.");
-        // });
 
         this.props.navigation.navigate('Dispense', {
             item: data,
+            ssid: this.state.ssid
             });
     }
 

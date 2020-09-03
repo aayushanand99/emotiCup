@@ -7,6 +7,9 @@ import {
   Image,
 } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
+import {wifiDisconnect} from '../wifiManager';
+
+
 
 
 const {width, height} = Dimensions.get('screen');
@@ -17,9 +20,11 @@ import BackgroundTimer from 'react-native-background-timer';
 export default class ThankYou extends Component {
     constructor(props) {
       super(props);
+      this.ssid = props.route.params.ssid;
     }
 
     componentDidMount() {
+      this.disconnectWifi()
       console.log("Product timerrrrr");
       BackgroundTimer.runBackgroundTimer(() => { 
         console.log("Product timer");
@@ -32,6 +37,15 @@ export default class ThankYou extends Component {
         
         }, 
       5000); 
+    }
+
+    disconnectWifi = async () => {
+      try {
+        await wifiDisconnect(this.ssid)
+        console.log('wifi disconnected ' + ssid);
+      } catch (error) {
+        console.log('wifi dicinnect error!', {error});
+      }
     }
 
     componentWillUnmount() {

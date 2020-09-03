@@ -27,7 +27,6 @@ export default class ScannerPage extends Component {
       this.setState({"currentSSID": ssid})
       console.log('Your current connected wifi SSID is ' + ssid);
     } catch (error) {
-      setSsid('Cannot get current SSID!' + error.message);
       console.log('Cannot get current SSID!', {error});
     }
   }
@@ -51,6 +50,7 @@ export default class ScannerPage extends Component {
           Toast.show("connection succesfull");
             this.props.navigation.navigate('Options', {
               keys: keys,
+              ssid: name
             });
         } catch (error) {
           Toast.show("connection failed");

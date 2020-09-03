@@ -25,6 +25,7 @@ export default class Dispense extends Component {
       this.state = {
         progress: 0,
         modalVisible: true,
+        ssid: props.route.params.ssid
       };
     }
 
@@ -65,12 +66,9 @@ export default class Dispense extends Component {
     completeDispense() {
         console.log('dispense completed');
         clearInterval(this.intervalID);
-        this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'ThankYou'}],
-            }),
-          );
+        this.props.navigation.navigate('ThankYou', {
+          ssid: this.state.ssid
+          });
     }
     
     render() {
