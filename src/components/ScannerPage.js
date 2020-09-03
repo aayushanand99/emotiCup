@@ -14,17 +14,17 @@ const {width, height} = Dimensions.get('screen');
 export default class ScannerPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {wifiStatus: false, spinner: false};
   }
   onSuccess = (e) => {
 
     const QR_Code = JSON.parse(e.data);
-    //this.connectToWifi(QR_Code.ssid, QR_Code.password, QR_Code.keys);
+    this.connectToWifi(QR_Code.ssid, QR_Code.password, QR_Code.keys);
 
-    //Toast.show("connection succesfull");
-        this.props.navigation.navigate('Options', {
-          keys: QR_Code.keys,
-        });
+
+    // // temporary code 
+    // this.props.navigation.navigate('Options', {
+    //   keys: QR_Code.keys,
+    // });
 
   };
 
@@ -36,14 +36,12 @@ export default class ScannerPage extends Component {
       false,
     ).then(
       () => {
-        //that.setState({wifiStatus: true});
-        //Toast.show("connection succesfull");
+        Toast.show("connection succesfull");
         this.props.navigation.navigate('Options', {
           keys: keys,
         });
       },
       () => {
-        that.setState({wifiStatus: false});
         Toast.show("connection failed");
       },
     );
