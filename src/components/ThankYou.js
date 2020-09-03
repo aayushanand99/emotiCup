@@ -20,16 +20,18 @@ export default class ThankYou extends Component {
     }
 
     componentDidMount() {
-        BackgroundTimer.runBackgroundTimer(() => { 
-          console.log("Product timer");
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'Home'}],
-            }),
-          );
-          }, 
-        5000); 
+      console.log("Product timerrrrr");
+      BackgroundTimer.runBackgroundTimer(() => { 
+        console.log("Product timer");
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{name: 'Home'}],
+          }),
+        );
+        
+        }, 
+      5000); 
     }
 
     componentWillUnmount() {
@@ -53,6 +55,7 @@ export default class ThankYou extends Component {
                 />
                 <Text style={styles.subTextTitle}>Brewing Memories</Text>
             </View>
+            <Text style={styles.thankYou}>ThankYou</Text>
             <View style={styles.centeredView}>
                 <Image
                     source={require("../../assets/images/iconSmile.jpg")}
@@ -93,9 +96,15 @@ export default class ThankYou extends Component {
       },
       centeredView: {
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 13
     },
+    thankYou: {
+      fontWeight: '500',
+      fontFamily: 'DessauMedium',
+      fontSize: 100,
+      color: colors.black,
+      marginTop: 10
+      }
     
   });

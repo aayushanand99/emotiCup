@@ -8,7 +8,6 @@ import {
   Image,
   Alert,
   Modal,
-  TouchableHighlight
 } from 'react-native';
 
 const {width, height} = Dimensions.get('screen');
@@ -18,16 +17,10 @@ import { CommonActions } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import { Icon } from 'react-native-elements'
 
-
-
-
-
-
 export default class Dispense extends Component {
     constructor(props) {
       super(props); 
-      this.selectedProduct = props.route.params.key; 
-      this.machineUrl = props.route.params.machineUrl; 
+      this.selectedProduct = props.route.params.item; 
       
       this.state = {
         progress: 0,
@@ -36,24 +29,17 @@ export default class Dispense extends Component {
     }
 
     componentDidMount() {
-        const urlToCall = this.machineUrl+ this.selectedProduct.urlAddress;
-        fetch(urlToCall)
-        .then((response) => response.json())
-        .catch((error) => console.error(error))
-        
-
         BackgroundTimer.stopBackgroundTimer();
+        this.dispenseProduct();
     }
 
-    componentWillUnmount() {
-      BackgroundTimer.stopBackgroundTimer();
-    }
 
     progress() {
         console.log("dispense");
         let progress = 0;
         this.setState({ progress });
         this.intervalID = setInterval(() => {
+            progress = this.state.progress
             progress += 0.08333333;
             if (progress > 1) {
               progress = 1;
@@ -65,21 +51,15 @@ export default class Dispense extends Component {
       }
 
     dispenseProduct = () => {
-        console.log("dispense");
-        this.setState({ modalVisible: false})
+        //console.log("dispense");
+        //this.setState({ modalVisible: false})
         this.progress();
-        fetch('http://192.168.1.101/hot_water');
+        fetch(this.selectedProduct.url);
     }
 
     cancelDispense() {
-        console.log("cancelDispence");
-        this.setState({ modalVisible: false})
-        this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'Home'}],
-            }),
-          );
+        console.log('dispense stopped');
+        this.setState({ progress: 2 });
     }
 
     completeDispense() {
@@ -97,53 +77,7 @@ export default class Dispense extends Component {
       const data = { keys: { key1: true, key2: true, key3: true}};
       return (
         <View style={styles.container}>
-            <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View>
-                            <Image
-                                source={require("../../assets/images/cupLoader.gif")}
-                                resizeMode={'contain'}
-                                style={{
-                                    width: width*0.5,
-                                    height: 100,
-                                    paddingVertical: 5
-                                }}
-                            />  
-                        </View>
-                        <View>
-                            <Text>Keep Cup On the Tray</Text>
-                        </View>
-                        <View style={styles.modalBtnContainer}>
-                            <TouchableHighlight
-                                style={{ ...styles.openButton, backgroundColor: colors.yellow }}
-                                onPress={this.dispenseProduct.bind(this)}
-                            >
-                                <Text style={styles.textStyle}>Dispense</Text>
-                            </TouchableHighlight>
-                        </View>
-                        <View style={{ position: 'absolute', top: '5%', right: '5%' }}>
-                            <TouchableHighlight                                 
-                            onPress={this.cancelDispense.bind(this)}
-                            >
-                                <Icon
-                                name='close'
-                                color='#517fa4'
-                                />
-                            </TouchableHighlight>
-                        </View>
-
-                        
-                    </View>
-                </View>
-            </Modal>
+            
 
             <View>
                 <Image
@@ -161,7 +95,7 @@ export default class Dispense extends Component {
             </View>
             <View style={styles.imageContainer}>
                 <Image
-                    source={require("../../assets/images/key1.jpg")}
+                    source={this.selectedProduct.image}
                     resizeMode={'contain'}
                     style={{
                         width: width*0.5,
@@ -174,8 +108,8 @@ export default class Dispense extends Component {
                 <Progress.Bar progress={this.state.progress} width={width*0.8} />
             </View>
             <View style={styles.imageContainer}>
-                <TouchableHighlight                                 
-                    onPress={this.completeDispense.bind(this)}
+                <TouchableOpacity                                 
+                    onPress={this.cancelDispense.bind(this)}
                 >
                     <Image
                         source={require("../../assets/images/iconStop.png")}
@@ -186,7 +120,7 @@ export default class Dispense extends Component {
                             paddingVertical: 10
                         }}
                     />  
-                </TouchableHighlight>
+                </TouchableOpacity>
                 <Text style={{ color: 'red'}}>Stop</Text>
             </View>
                         
