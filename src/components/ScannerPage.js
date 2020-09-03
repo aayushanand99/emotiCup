@@ -14,38 +14,67 @@ const {width, height} = Dimensions.get('screen');
 export default class ScannerPage extends Component {
   constructor(props) {
     super(props);
+    this.state = { "currentSSID": ""}
   }
-  onSuccess = (e) => {
 
+  componentDidMount() {
+    this.getCurrentSsid()
+  }
+
+  getCurrentSsid = async () => {
+    try {
+      const ssid = await WifiManager.getCurrentWifiSSID();
+      this.setState({"currentSSID": ssid})
+      console.log('Your current connected wifi SSID is ' + ssid);
+    } catch (error) {
+      setSsid('Cannot get current SSID!' + error.message);
+      console.log('Cannot get current SSID!', {error});
+    }
+  }
+
+  onSuccess = (e) => {
     const QR_Code = JSON.parse(e.data);
+    console.log("on successs");
     this.connectToWifi(QR_Code.ssid, QR_Code.password, QR_Code.keys);
 
-
-    // // temporary code 
-    // this.props.navigation.navigate('Options', {
-    //   keys: QR_Code.keys,
-    // });
-
   };
 
-  connectToWifi = (name, password, keys) => {
-    let that = this;
-    WifiManager.connectToProtectedSSID(
-      name,
-      password,
-      false,
-    ).then(
-      () => {
+  connectToWifi = async (name, password, keys) => {
+      if(name !== this.state.currentSSID) {
+        try {
+          const data = await WifiManager.connectToProtectedSSID(
+            name,
+            password,
+            false,
+          );
+          console.log('Connected successfully!', {data});
+          Toast.show("connection succesfull");
+            this.props.navigation.navigate('Options', {
+              keys: keys,
+            });
+        } catch (error) {
+          Toast.show("connection failed");
+          console.log('Connection failed!', {error});
+        }
+      } else {
         Toast.show("connection succesfull");
-        this.props.navigation.navigate('Options', {
-          keys: keys,
-        });
-      },
-      () => {
-        Toast.show("connection failed");
-      },
-    );
+            this.props.navigation.navigate('Options', {
+              keys: keys,
+            });
+      }
+      
+    
+    
   };
+
+  cancelScan()  {
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{name: 'Home'}],
+      }),
+    );
+  }
 
   render() {
     return (
@@ -67,8 +96,8 @@ export default class ScannerPage extends Component {
           />
           }
           bottomContent={
-            <TouchableOpacity style={styles.buttonTouchable}>
-              <Text style={styles.buttonText}>OK. Got it!</Text>
+            <TouchableOpacity style={styles.buttonTouchable} onPress={this.cancelScan}>
+              <Text style={styles.buttonText}>Cancel Scan</Text>
             </TouchableOpacity>
           }
         />
