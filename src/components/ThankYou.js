@@ -31,7 +31,7 @@ export default class ThankYou extends Component {
         this.props.navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{name: 'Home'}],
+            routes: [{name: 'Home', params: { error: "Visit again!!!" }}],
           }),
         );
         

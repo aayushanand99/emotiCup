@@ -17,6 +17,7 @@ import { CommonActions } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import { Icon } from 'react-native-elements'
 
+
 export default class Dispense extends Component {
     constructor(props) {
       super(props); 
@@ -52,30 +53,78 @@ export default class Dispense extends Component {
       }
 
     dispenseProduct = () => {
-        //console.log("dispense");
-        //this.setState({ modalVisible: false})
         this.progress();
         fetch(this.selectedProduct.url);
     }
 
     cancelDispense() {
         console.log('dispense stopped');
-        this.setState({ progress: 2 });
+
+        this.setState({
+            spinner: true,
+        })
+        fetch(this.selectedProduct.url).then(response => {
+            this.setState({
+                spinner: false,
+            })
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                this.setState({
+                    progress: 2,
+                });
+            }
+            else {
+                this.setState({
+                    spinner: false,
+                })
+                alert("Please wait.");
+            }
+        }).catch(error => {
+            this.setState({
+                spinner: false,
+            })
+            alert("Please wait.");
+        });
     }
 
     completeDispense() {
         console.log('dispense completed');
         clearInterval(this.intervalID);
-        this.props.navigation.navigate('ThankYou', {
-          ssid: this.state.ssid
-          });
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+              index: 0,
+              routes: [{ name: "ThankYou", params: { ssid: this.state.ssid } }]
+          }),
+      );
     }
     
     render() {
       const data = { keys: { key1: true, key2: true, key3: true}};
       return (
         <View style={styles.container}>
-            
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.spinner}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <View>
+                                <Image
+                                    source={require("../../assets/images/cupLoader.gif")}
+                                    resizeMode={'contain'}
+                                    style={{
+                                        width: width*0.5,
+                                        height: 100,
+                                        paddingVertical: 5
+                                    }}
+                                />  
+                                <Text>Processing ...</Text>
+
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
 
             <View>
                 <Image
@@ -190,6 +239,28 @@ export default class Dispense extends Component {
     modalBtnContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 10,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 10,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     }
   });
   

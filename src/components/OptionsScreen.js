@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Button, Text, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
+import { ScrollView, View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, Modal, Text } from "react-native";
 import { CommonActions } from "@react-navigation/native"
 import Spinner from 'react-native-loading-spinner-overlay';
 import BackgroundTimer from 'react-native-background-timer';
-
+import Toast from 'react-native-simple-toast';
+const {width, height} = Dimensions.get('screen');
 
 const ITEM_WIDTH = Dimensions.get('window').width;
 
@@ -21,14 +22,14 @@ export default class OptionsScreen extends Component {
                 key: "key1",
                 image: require("../assets/images/1.jpg"),
                 name: "Black Tea",
-                url: "http://192.168.1.101/black_tea",
+                url: "http://52.66.211.225:3005/black_tea",
                 seconds:10
             },
             {
                 key: "key2",
                 image: require("../assets/images/2.jpg"),
                 name: "Black Coffee",
-                url: "http://192.168.1.101/black_coffee",
+                url: "http://52.66.211.225:3005/black_coffee",
                 seconds:10
             },
             {
@@ -100,14 +101,13 @@ export default class OptionsScreen extends Component {
     }
 
     componentDidMount() {
-        //this.timeoutNavigate();
 
         BackgroundTimer.runBackgroundTimer(() => { 
             console.log("Product timer");
             this.props.navigation.dispatch(
               CommonActions.reset({
                 index: 1,
-                routes: [{name: 'Home'}],
+                routes: [{name: 'Home' , params: { error: "Selection Timeout" }}],
               }),
             );
             
@@ -122,21 +122,50 @@ export default class OptionsScreen extends Component {
 
     callApi = (data) => {
 
-        this.props.navigation.navigate('Dispense', {
-            item: data,
-            ssid: this.state.ssid
-            });
-    }
+        this.setState({
+            spinner: true,
+        })
+        fetch(data.url).then(response => {
+            this.setState({
+                spinner: false,
+            })
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                this.props.navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: "Dispense", params: { item: data, ssid: this.state.ssid } }]
+                    }),
+                );
+            }
+            else {
+                this.setState({
+                    spinner: false,
+                })
+                BackgroundTimer.stopBackgroundTimer();
+                this.props.navigation.dispatch(
+                    CommonActions.reset({
+                      index: 1,
+                      routes: [{name: 'Home', params: { error: "Network Failure" }}],
+                    }),
+                  );
+            }
+        }).catch(error => {
+            this.setState({
+                spinner: false,
+            })
+            BackgroundTimer.stopBackgroundTimer();
+            Toast.show("Network Failure")
+            this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 1,
+                  routes: [{name: 'Home', params: { error: "Network Failure" }}],
+                }),
+              );
+        });
 
-    // navigateToCountdown = (data) => {
-    //     clearTimeout(this.timeout);
-    //     this.props.navigation.dispatch(
-    //         CommonActions.reset({
-    //             index: 0,
-    //             routes: [{ name: "Countdown", params: { data: data } }]
-    //         }),
-    //     );
-    // }
+        
+    }
 
     render() {
         let { keys } = this.state;
@@ -145,11 +174,28 @@ export default class OptionsScreen extends Component {
         });
         return (
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Spinner
-                    visible={this.state.spinner}
-                    textContent={'Processing...'}
-                    textStyle={{ color: '#FFF' }}
-                />
+                <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.spinner}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <View>
+                                <Image
+                                    source={require("../../assets/images/cupLoader.gif")}
+                                    resizeMode={'contain'}
+                                    style={{
+                                        width: width*0.5,
+                                        height: 100,
+                                        paddingVertical: 5
+                                    }}
+                                />  
+                            </View>
+                            <Text>Processing ...</Text>
+                        </View>
+                    </View>
+                </Modal>
                 {newData && newData.length > 0 ?
                     <FlatList
                         data={newData}
@@ -172,3 +218,30 @@ export default class OptionsScreen extends Component {
         )
     }
 }
+
+
+const styles = StyleSheet.create({
+    
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+  },
+  modalView: {
+      margin: 10,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 10,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+  }
+  });
+  

@@ -11,6 +11,10 @@ import {
   Keyboard,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Toast from 'react-native-simple-toast';
+import BackgroundTimer from 'react-native-background-timer';
+
+
 
 import colors from '../utils/colors';
 
@@ -20,6 +24,14 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {sliderActiveSlide: 0};
+  }
+
+  componentDidMount() {
+    BackgroundTimer.stopBackgroundTimer();
+    if(this.props.route.params) {
+      if(this.props.route.params.error)
+      Toast.show(this.props.route.params.error, Toast.LONG)
+    }
   }
   _renderCarouselImage = ({item, index}) => {
     return (
