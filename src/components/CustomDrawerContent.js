@@ -5,13 +5,16 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  AsyncStorage,
+  Alert,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import constants from '../utils/constants';
 import colors from '../utils/colors';
 import {DrawerActions} from '@react-navigation/native';
+import {CommonActions} from '@react-navigation/native';
 
 const customDrawerContent = function (props) {
   return (
@@ -68,11 +71,25 @@ const customDrawerContent = function (props) {
         <TouchableOpacity
           style={[styles.menuItem, {bottom: 20, position: 'absolute'}]}
           onPress={() => {
-            // AsyncStorage.setItem('phone', '');
-            // AsyncStorage.setItem('liveOTP', '');
-            // props.dispatch(replaceCart({}));
-            // props.navigation.dispatch(DrawerActions.closeDrawer());
-            // props.navigation.replace('Login');
+            Alert.alert('Logout', 'Are You sure you want to Logout?', [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {
+                text: 'YEs',
+                onPress: async () => {
+                  await AsyncStorage.setItem('userId', '');
+                  props.navigation.dispatch(
+                    CommonActions.reset({
+                      index: 1,
+                      routes: [{name: 'Login'}],
+                    }),
+                  );
+                },
+              },
+            ]);
           }}>
           <View style={styles.iconContainer}>
             <Entypo name="log-out" size={25} />

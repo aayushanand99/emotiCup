@@ -11,6 +11,7 @@ import {Button} from 'react-native-paper';
 import CheckBox from '@react-native-community/checkbox';
 import Header from './Header';
 import colors from '../utils/colors';
+import {TabRouter} from '@react-navigation/native';
 
 export default class Feedback extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class Feedback extends React.Component {
       quality: false,
       service: false,
       other: '',
+      badFeedbackSubmitted: false,
     };
   }
 
@@ -60,7 +62,8 @@ export default class Feedback extends React.Component {
               </TouchableOpacity>
             )}
           {this.state.goodFeedback === false &&
-            this.state.badFeedback === false && (
+            this.state.badFeedback === false &&
+            this.state.badFeedbackSubmitted === false && (
               <TouchableOpacity
                 style={styles.badFeedbackIconContainer}
                 onPress={this.badFeedbackPressed}>
@@ -69,6 +72,7 @@ export default class Feedback extends React.Component {
                 />
               </TouchableOpacity>
             )}
+
           {this.state.goodFeedback && (
             <View style={styles.goodFeedbackMessageCont}>
               <Text style={styles.textBold}>
@@ -77,7 +81,7 @@ export default class Feedback extends React.Component {
               <Text style={styles.textItallic}>Stay Safe - Stay Healthy</Text>
             </View>
           )}
-          {this.state.badFeedback && (
+          {this.state.badFeedback && this.state.badFeedbackSubmitted === false && (
             <View style={styles.badFeedbackMessageCont}>
               <Text style={styles.textBold}>Choose the reason(s)</Text>
               <View
@@ -294,11 +298,21 @@ export default class Feedback extends React.Component {
                   height: 50,
                   width: 100,
                 }}
-                onPress={() => console.log('Pressed')}>
+                onPress={() => this.setState({badFeedbackSubmitted: true})}>
                 Submit
               </Button>
             </View>
           )}
+          {this.state.goodFeedback === false &&
+            this.state.badFeedback === true &&
+            this.state.badFeedbackSubmitted === true && (
+              <View style={styles.goodFeedbackMessageCont}>
+                <Text style={styles.textBold}>
+                  Thank you for choosing Emoticup
+                </Text>
+                <Text style={styles.textItallic}>We will revert shortly</Text>
+              </View>
+            )}
         </View>
       </View>
     );
