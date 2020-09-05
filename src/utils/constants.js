@@ -53,4 +53,5 @@ export default {
         'Authentication and verifying the Wi-Fi network sometimes takes time depending upon the Device processor. However, it can speed up the process after couple of times.',
     },
   ],
+  ContactUs: 'Contact Us',
 };

@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import constants from '../utils/constants';
@@ -21,7 +23,7 @@ const customDrawerContent = function (props) {
     <View style={{flex: 1, width: '100%'}}>
       <View style={styles.logoContainer} />
       <View style={styles.appLinks}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.menuItem}
           onPress={() => {
             props.navigation.navigate('Profile');
@@ -42,15 +44,23 @@ const customDrawerContent = function (props) {
           </View>
 
           <Text style={styles.menuItemText}>{constants.Feedback}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => {}}>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => {
+            props.navigation.navigate('ContactUs');
+          }}>
           <View style={styles.iconContainer}>
-            <MaterialIcons name="help" size={25} />
+            <AntDesign name="contacts" size={25} />
           </View>
 
-          <Text style={styles.menuItemText}>{constants.Help}</Text>
+          <Text style={styles.menuItemText}>{constants.ContactUs}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => {
+            props.navigation.navigate('AboutUS');
+          }}>
           <View style={styles.iconContainer}>
             <MaterialIcons name="info" size={25} />
           </View>
@@ -63,7 +73,10 @@ const customDrawerContent = function (props) {
             props.navigation.navigate('FAQ');
           }}>
           <View style={styles.iconContainer}>
-            <Entypo name="clipboard" size={25} />
+            <MaterialCommunityIcons
+              name="frequently-asked-questions"
+              size={25}
+            />
           </View>
 
           <Text style={styles.menuItemText}>{constants.FAQ}</Text>

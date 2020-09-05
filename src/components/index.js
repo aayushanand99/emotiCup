@@ -9,6 +9,8 @@ import CustomDrawerContent from './CustomDrawerContent';
 import Profile from './Profile';
 import Feedback from './Feedback';
 import FAQ from './FAQ';
+import ContactUs from './ContactUs';
+import AboutUS from './AboutUS';
 
 export {
   Test,
@@ -22,4 +24,6 @@ export {
   Profile,
   Feedback,
   FAQ,
+  ContactUs,
+  AboutUS,
 };

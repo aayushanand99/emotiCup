@@ -16,6 +16,8 @@ import {
   Profile,
   Feedback,
   FAQ,
+  ContactUs,
+  AboutUS,
 } from './components';
 
 const Stack = createStackNavigator();
@@ -53,6 +55,20 @@ const HomeScreen = (props) => {
       <Drawer.Screen
         name="FAQ"
         component={FAQ}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+      <Drawer.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+      <Drawer.Screen
+        name="AboutUS"
+        component={AboutUS}
         options={{
           headerShown: 'false',
         }}
