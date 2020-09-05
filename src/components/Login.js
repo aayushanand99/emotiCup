@@ -15,7 +15,7 @@ import {CommonActions} from '@react-navigation/native';
 
 import colors from '../utils/colors';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 export default class Login extends Component {
   constructor(props) {
@@ -56,13 +56,16 @@ export default class Login extends Component {
           onPress={() => Keyboard.dismiss()}>
           <View>
             <Image
-              source={require('../../assets/images/iconSmile.jpg')}
-              style={styles.smileIcon}
+              source={require('../../assets/images/logo.png')}
+              style={{
+                width: width * 0.9,
+                height: height * 0.15,
+                alignSelf: 'center',
+                // backgroundColor: 'red',
+                top: -20,
+              }}
+              resizeMode={'contain'}
             />
-            <Text style={styles.appTitle}>
-              emoti<Text style={styles.darkColorText}>cup</Text>
-            </Text>
-
             <Text style={styles.subTextTitle}>Brewing Memories</Text>
           </View>
           <View
@@ -102,10 +105,10 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   subTextTitle: {
-    fontSize: 20,
+    fontSize: 18,
     position: 'absolute',
-    top: 115,
-    right: 100,
+    top: 70,
+    right: 120,
   },
   smileIcon: {
     position: 'absolute',

@@ -15,6 +15,7 @@ import Toast from 'react-native-simple-toast';
 import BackgroundTimer from 'react-native-background-timer';
 
 
+import Header from './Header';
 
 import colors from '../utils/colors';
 
@@ -50,6 +51,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Header drawerNavigation={this.props.navigation} />
         <View>
           <Image
             source={require('../../assets/images/logo.png')}
@@ -58,7 +60,7 @@ export default class Home extends Component {
               height: height * 0.15,
               alignSelf: 'center',
               // backgroundColor: 'red',
-              top: -20,
+              top: -10,
             }}
             resizeMode={'contain'}
           />
@@ -94,7 +96,7 @@ export default class Home extends Component {
               // width: 100,
               // height: 100,
               position: 'absolute',
-              bottom: '-30%',
+              bottom: '-20%',
               alignSelf: 'center',
             }}
             activeDotIndex={this.state.sliderActiveSlide}
@@ -138,19 +140,6 @@ export default class Home extends Component {
             Scan QR Code
           </Text>
         </TouchableOpacity>
-        <Text
-          style={{
-            color: colors.black,
-            position: 'absolute',
-            bottom: 0,
-
-            alignSelf: 'flex-start',
-            fontSize: 25,
-            fontWeight: '500',
-            marginLeft: 10,
-          }}>
-          FAQ
-        </Text>
       </View>
     );
   }
@@ -164,7 +153,7 @@ const styles = StyleSheet.create({
   subTextTitle: {
     fontSize: 18,
     position: 'absolute',
-    top: 70,
+    top: 80,
     right: 120,
   },
   coverImageContainer: {

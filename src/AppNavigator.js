@@ -2,10 +2,64 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import {Test, Login, Home, ScannerPage, OptionsScreen, Dispense, ThankYou} from './components';
+import {
+  Test,
+  Login,
+  Home,
+  ScannerPage,
+  OptionsScreen,
+  Dispense,
+  ThankYou,
+  CustomDrawerContent,
+  Profile,
+  Feedback,
+  FAQ,
+} from './components';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const HomeScreen = (props) => {
+  let stackNavigator = props.navigation;
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={(props) => (
+        <CustomDrawerContent {...props} stackNavigator={stackNavigator} />
+      )}>
+      <Drawer.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+      <Drawer.Screen
+        name="Feedback"
+        component={Feedback}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+      <Drawer.Screen
+        name="FAQ"
+        component={FAQ}
+        options={{
+          headerShown: 'false',
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
 
 function AppNavigator() {
   return (
@@ -18,7 +72,7 @@ function AppNavigator() {
         />
         <Stack.Screen
           name="Home"
-          component={Home}
+          component={HomeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -41,7 +95,6 @@ function AppNavigator() {
           component={ThankYou}
           options={{headerShown: false}}
         />
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

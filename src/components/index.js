@@ -5,6 +5,21 @@ import ScannerPage from './ScannerPage';
 import Dispense from './Dispense';
 import OptionsScreen from './OptionsScreen';
 import ThankYou from './ThankYou';
+import CustomDrawerContent from './CustomDrawerContent';
+import Profile from './Profile';
+import Feedback from './Feedback';
+import FAQ from './FAQ';
 
-
-export {Test, Login, Home, ScannerPage, Dispense, OptionsScreen, ThankYou};
+export {
+  Test,
+  Login,
+  Home,
+  ScannerPage,
+  Dispense,
+  OptionsScreen,
+  CustomDrawerContent,
+  ThankYou,
+  Profile,
+  Feedback,
+  FAQ,
+};
