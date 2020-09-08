@@ -25,8 +25,8 @@ export default class Dispense extends Component {
       
       this.state = {
         progress: 0,
-        modalVisible: true,
-        ssid: props.route.params.ssid
+        ssid: props.route.params.ssid,
+        spinnerDispense: false
       };
     }
 
@@ -61,11 +61,11 @@ export default class Dispense extends Component {
         console.log('dispense stopped');
 
         this.setState({
-            spinner: true,
+            spinnerDispense: true,
         })
         fetch(this.selectedProduct.url).then(response => {
             this.setState({
-                spinner: false,
+                spinnerDispense: false,
             })
             const statusCode = response.status;
             if (statusCode == 200) {
@@ -75,13 +75,13 @@ export default class Dispense extends Component {
             }
             else {
                 this.setState({
-                    spinner: false,
+                    spinnerDispense: false,
                 })
                 alert("Please wait.");
             }
         }).catch(error => {
             this.setState({
-                spinner: false,
+                spinnerDispense: false,
             })
             alert("Please wait.");
         });
@@ -105,7 +105,7 @@ export default class Dispense extends Component {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={this.state.spinner}
+                visible={this.state.spinnerDispense}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
@@ -119,7 +119,7 @@ export default class Dispense extends Component {
                                         paddingVertical: 5
                                     }}
                                 />  
-                                <Text>Processing ...</Text>
+                                <Text>Processing Dispence ...</Text>
 
                             </View>
                         </View>

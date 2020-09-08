@@ -25,7 +25,7 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-paper": "^4.1.0",
-    "react-native-permissions": "^2.1.5",
+    "react-native-permissions": "^2.2.0",
     "react-native-progress": "^4.1.2",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.9.0",

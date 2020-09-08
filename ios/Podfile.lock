@@ -70,11 +70,11 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
-  - Permission-Camera (2.1.5):
+  - Permission-Camera (2.2.0):
     - RNPermissions
-  - Permission-Microphone (2.1.5):
+  - Permission-Microphone (2.2.0):
     - RNPermissions
-  - Permission-PhotoLibrary (2.1.5):
+  - Permission-PhotoLibrary (2.2.0):
     - RNPermissions
   - RCTRequired (0.63.0)
   - RCTTypeSafety (0.63.0):
@@ -327,7 +327,7 @@ PODS:
     - React
   - RNGestureHandler (1.6.1):
     - React
-  - RNPermissions (2.1.5):
+  - RNPermissions (2.2.0):
     - React
   - RNReanimated (1.9.0):
     - React
@@ -529,9 +529,9 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
-  Permission-Microphone: af45e35013788b52eecf3cd8f13185c4b6f7bff7
-  Permission-PhotoLibrary: 3400b260e5f80e0dd9c04d00c2ceab233bf88427
+  Permission-Camera: cc98f099e74178912b7c6b3795c3b59c246f0d7c
+  Permission-Microphone: 2fb25d7e1efe36e82bcff52ce72d03ced7b6d474
+  Permission-PhotoLibrary: 7c335322d84ded15089f144d75cec154565fbc66
   RCTRequired: e46bb77db03887b3e200d34b08515c804669db99
   RCTTypeSafety: 270fed6675c42f80fb87b47d626ef3cede1505e6
   React: e008906ff1328f9bccb345ff4f7826397ad223fc
@@ -561,7 +561,7 @@ SPEC CHECKSUMS:
   RNCCheckbox: 953b425a4889b026f4e48de5c427ae2d15fd4a96
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
+  RNPermissions: e29e449d948ba1c04f3bb3bede5c662667543c49
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
@@ -570,6 +570,6 @@ SPEC CHECKSUMS:
   Yoga: 7d2edc5b410474191962e6dee88ee67f9b328b6b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 97101d40cb0897c96b1af598366beec48c287513
+PODFILE CHECKSUM: a256d18b565094e58c702924cbedbaa689fe8058
 
 COCOAPODS: 1.9.3

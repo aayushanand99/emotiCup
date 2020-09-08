@@ -22,14 +22,14 @@ export default class OptionsScreen extends Component {
                 key: "key1",
                 image: require("../assets/images/1.jpg"),
                 name: "Black Tea",
-                url: "http://52.66.211.225:3005/black_tea",
+                url: "http://192.168.1.101/black_tea",
                 seconds:10
             },
             {
                 key: "key2",
                 image: require("../assets/images/2.jpg"),
                 name: "Black Coffee",
-                url: "http://52.66.211.225:3005/black_coffee",
+                url: "http://192.168.1.101/black_coffee",
                 seconds:10
             },
             {
@@ -192,7 +192,7 @@ export default class OptionsScreen extends Component {
                                     }}
                                 />  
                             </View>
-                            <Text>Processing ...</Text>
+                            <Text>Processing products ...</Text>
                         </View>
                     </View>
                 </Modal>

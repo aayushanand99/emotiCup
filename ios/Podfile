@@ -20,6 +20,8 @@ target 'emotiCup' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+
   target 'emotiCupTests' do
     inherit! :complete
     # Pods for testing

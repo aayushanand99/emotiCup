@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,  Modal, AppState} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,  Modal, AppState, Alert} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { CommonActions } from "@react-navigation/native"
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import colors from '../utils/colors';
 import WifiManager from 'react-native-wifi-reborn';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {check, PERMISSIONS, RESULTS, openSettings} from 'react-native-permissions';
 
 
 const {width, height} = Dimensions.get('screen');
-
-
 
 export default class ScannerPage extends Component {
   constructor(props) {
@@ -19,6 +18,29 @@ export default class ScannerPage extends Component {
   }
 
   componentDidMount() {
+    check(PERMISSIONS.IOS.CAMERA)
+    .then((result) => {
+      if(result !== RESULTS.GRANTED) {
+        Alert.alert(
+          "",
+          "Camera permission required",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "Settings", onPress: () => openSettings().catch(() => console.warn('cannot open settings')) }
+          ],
+          { cancelable: false }
+        );
+      }
+    })
+    .catch((error) => {
+      Toast.show("Permission error")
+    });
+
+
     this.getCurrentSsid()
     AppState.addEventListener('change', this._handleAppStateChange)
   }
@@ -47,6 +69,7 @@ export default class ScannerPage extends Component {
 
   onSuccess = (e) => {
     this.setState({"spinner": true})
+    console.log(e.data);
     const QR_Code = JSON.parse(e.data);
     console.log("on successs");
     
@@ -66,7 +89,7 @@ export default class ScannerPage extends Component {
             
             this.props.navigation.dispatch(
               CommonActions.reset({
-                  index: 0,
+                  index: 1,
                   routes: [{ name: "Options", params: { keys: keys, ssid: name} }]
               }),
           );
@@ -74,7 +97,7 @@ export default class ScannerPage extends Component {
           this.setState({"spinner": false})
           this.props.navigation.dispatch(
             CommonActions.reset({
-              index: 0,
+              index: 1,
               routes: [{name: 'Home', params: { error: "Connection failed" }}],
             }),
           );
@@ -121,7 +144,7 @@ export default class ScannerPage extends Component {
                                 }}
                             />  
                         </View>
-                        <Text>Processing ...</Text>
+                        <Text>Processing scanner ...</Text>
                     </View>
                 </View>
             </Modal>

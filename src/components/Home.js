@@ -8,12 +8,12 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  Keyboard,
+  Alert,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Toast from 'react-native-simple-toast';
 import BackgroundTimer from 'react-native-background-timer';
-
+import {requestMultiple, PERMISSIONS, openSettings} from 'react-native-permissions';
 
 import Header from './Header';
 
@@ -28,6 +28,25 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    requestMultiple([PERMISSIONS.IOS.CAMERA]).then(
+      (statuses) => {
+        if(statuses[PERMISSIONS.IOS.CAMERA] !== 'granted') {
+          Alert.alert(
+            "",
+            "Camera permission required",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "Settings", onPress: () => openSettings().catch(() => console.warn('cannot open settings')) }
+            ],
+            { cancelable: false }
+          );
+        }
+      },
+    );
     BackgroundTimer.stopBackgroundTimer();
     if(this.props.route.params) {
       if(this.props.route.params.error)

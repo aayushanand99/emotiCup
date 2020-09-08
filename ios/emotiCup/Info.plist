@@ -38,13 +38,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>In order to scan QR code we require your camera permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need this to get wifi information</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<string>In order to connect to machine we require your location permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>In order to connect to machine we require photo library access permission</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>BreeBold.otf</string>
