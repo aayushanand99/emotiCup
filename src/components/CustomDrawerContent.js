@@ -91,7 +91,7 @@ const customDrawerContent = function (props) {
                 style: 'cancel',
               },
               {
-                text: 'YEs',
+                text: 'Yes',
                 onPress: async () => {
                   await AsyncStorage.setItem('userId', '');
                   props.navigation.dispatch(

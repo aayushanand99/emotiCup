@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     width: '95%',
     // backgroundColor: 'red',
     fontSize: 25,
+    color: colors.black
   },
   loginbutton: {
     marginTop: 10,

@@ -69,7 +69,10 @@ export default class ThankYou extends Component {
                 />
                 <Text style={styles.subTextTitle}>Brewing Memories</Text>
             </View>
-            <Text style={styles.thankYou}>ThankYou</Text>
+            <View style={styles.centeredView}>
+              <Text style={styles.thankYou}>ThankYou</Text>
+            </View>
+            
             <View style={styles.centeredView}>
                 <Image
                     source={require("../../assets/images/iconSmile.jpg")}
@@ -116,7 +119,7 @@ export default class ThankYou extends Component {
     thankYou: {
       fontWeight: '500',
       fontFamily: 'DessauMedium',
-      fontSize: 100,
+      fontSize: 50,
       color: colors.black,
       marginTop: 10
       }
