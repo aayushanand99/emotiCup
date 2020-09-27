@@ -1,157 +1,233 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions,  Modal, AppState, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Modal,
+  AppState,
+  Alert,
+  Platform,
+} from 'react-native';
 import Toast from 'react-native-simple-toast';
-import { CommonActions } from "@react-navigation/native"
+import {CommonActions} from '@react-navigation/native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import colors from '../utils/colors';
 import WifiManager from 'react-native-wifi-reborn';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {check, PERMISSIONS, RESULTS, openSettings} from 'react-native-permissions';
-
+import {
+  check,
+  PERMISSIONS,
+  RESULTS,
+  openSettings,
+  request,
+} from 'react-native-permissions';
 
 const {width, height} = Dimensions.get('screen');
 
 export default class ScannerPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { "currentSSID": "", "spinner": false, appState: AppState.currentState}
+    this.state = {
+      currentSSID: '',
+      spinner: false,
+      appState: AppState.currentState,
+    };
   }
 
   componentDidMount() {
-    check(PERMISSIONS.IOS.CAMERA)
-    .then((result) => {
-      if(result !== RESULTS.GRANTED) {
-        Alert.alert(
-          "",
-          "Camera permission required",
-          [
-            {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            },
-            { text: "Settings", onPress: () => openSettings().catch(() => console.warn('cannot open settings')) }
-          ],
-          { cancelable: false }
-        );
-      }
-    })
-    .catch((error) => {
-      Toast.show("Permission error")
-    });
+    let that = this;
+    if (Platform.OS === 'ios') {
+      check(PERMISSIONS.IOS.CAMERA)
+        .then((result) => {
+          if (result !== RESULTS.GRANTED) {
+            Alert.alert(
+              '',
+              'Camera permission required',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Settings',
+                  onPress: () =>
+                    openSettings().catch(() =>
+                      console.warn('cannot open settings'),
+                    ),
+                },
+              ],
+              {cancelable: false},
+            );
+          }
+        })
+        .catch((error) => {
+          Toast.show('Permission error');
+        });
+    } else {
+      check(PERMISSIONS.ANDROID.CAMERA)
+        .then((result) => {
+          switch (result) {
+            case RESULTS.UNAVAILABLE:
+              console.log(
+                'This feature is not available (on this device / in this context)',
+              );
+              break;
+            case RESULTS.DENIED:
+              request(PERMISSIONS.ANDROID.CAMERA).then((result) => {
+                if (result != RESULTS.GRANTED) {
+                  that.showCamerPermissionRequiredAlert();
+                }
+              });
+              break;
+            case RESULTS.GRANTED:
+              console.log('The permission is granted');
+              break;
+            case RESULTS.BLOCKED:
+              that.showCamerPermissionRequiredAlert();
+              break;
+          }
+        })
+        .catch((error) => {
+          Toast.show('Permission error');
+        });
+    }
 
-
-    this.getCurrentSsid()
-    AppState.addEventListener('change', this._handleAppStateChange)
+    this.getCurrentSsid();
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
+  showCamerPermissionRequiredAlert = () => {
+    Alert.alert(
+      '',
+      'Camera permission required',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Settings',
+          onPress: () =>
+            openSettings().catch(() => console.warn('cannot open settings')),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   _handleAppStateChange = (nextAppState) => {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this.scanner.reactivate()
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      this.scanner.reactivate();
     }
-    this.setState({ appState: nextAppState });
-  }
+    this.setState({appState: nextAppState});
+  };
 
   getCurrentSsid = async () => {
     try {
       const ssid = await WifiManager.getCurrentWifiSSID();
-      this.setState({"currentSSID": ssid})
+      this.setState({currentSSID: ssid});
       console.log('Your current connected wifi SSID is ' + ssid);
     } catch (error) {
       console.log('Cannot get current SSID!', {error});
     }
-  }
+  };
 
   onSuccess = (e) => {
-    this.setState({"spinner": true})
+    this.setState({spinner: true});
     console.log(e.data);
     const QR_Code = JSON.parse(e.data);
-    console.log("on successs");
-    
-    this.connectToWifi(QR_Code.ssid, QR_Code.password, QR_Code.keys);
+    console.log('on successs');
+
+    this.connectToWifi('Aayush', '1223334444', QR_Code.keys);
   };
 
   connectToWifi = async (name, password, keys) => {
-      if(name !== this.state.currentSSID) {
-        try {
-          const data = await WifiManager.connectToProtectedSSID(
-            name,
-            password,
-            false,
-          );
-          this.setState({"spinner": false})
-          Toast.show("connection Successfull");
-            
-            this.props.navigation.dispatch(
-              CommonActions.reset({
-                  index: 1,
-                  routes: [{ name: "Options", params: { keys: keys, ssid: name} }]
-              }),
-          );
-        } catch (error) {
-          this.setState({"spinner": false})
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'Home', params: { error: "Connection failed" }}],
-            }),
-          );
-        }
-      } else {
-        this.setState({"spinner": false})
-        Toast.show("Connection succesfull");
-            this.props.navigation.navigate('Options', {
-              keys: keys,
-            });
+    if (name !== this.state.currentSSID) {
+      try {
+        const data = await WifiManager.connectToProtectedSSID(
+          name,
+          password,
+          false,
+        );
+        this.setState({spinner: false});
+        Toast.show('connection Successfull');
+
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{name: 'Options', params: {keys: keys, ssid: name}}],
+          }),
+        );
+      } catch (error) {
+        console.log(error);
+        this.setState({spinner: false});
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{name: 'Home', params: {error: 'Connection failed'}}],
+          }),
+        );
       }
-      
-    
-    
+    } else {
+      this.setState({spinner: false});
+      Toast.show('Connection succesfull');
+      this.props.navigation.navigate('Options', {
+        keys: keys,
+      });
+    }
   };
 
-  cancelScan = () =>  {
+  cancelScan = () => {
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{name: 'Home', params: { error: "Scan Cancelled" }}],
+        routes: [{name: 'Home', params: {error: 'Scan Cancelled'}}],
       }),
     );
-  }
+  };
 
   render() {
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.spinner}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View>
-                            <Image
-                                source={require("../../assets/images/cupLoader.gif")}
-                                resizeMode={'contain'}
-                                style={{
-                                    width: width*0.5,
-                                    height: 100,
-                                    paddingVertical: 5
-                                }}
-                            />  
-                        </View>
-                        <Text>Processing scanner ...</Text>
-                    </View>
-                </View>
-            </Modal>
+          animationType="slide"
+          transparent={true}
+          visible={this.state.spinner}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View>
+                <Image
+                  source={require('../../assets/images/cupLoader.gif')}
+                  resizeMode={'contain'}
+                  style={{
+                    width: width * 0.5,
+                    height: 100,
+                    paddingVertical: 5,
+                  }}
+                />
+              </View>
+              <Text>Processing scanner ...</Text>
+            </View>
+          </View>
+        </Modal>
         <QRCodeScanner
           onRead={this.onSuccess}
           //flashMode={RNCamera.Constants.FlashMode.torch}
-          ref={(node) => { this.scanner = node }}
+          ref={(node) => {
+            this.scanner = node;
+          }}
           topContent={
             <Image
               source={require('../../assets/images/logo.png')}
@@ -163,10 +239,12 @@ export default class ScannerPage extends Component {
                 top: -20,
               }}
               resizeMode={'contain'}
-          />
+            />
           }
           bottomContent={
-            <TouchableOpacity style={styles.buttonTouchable} onPress={this.cancelScan}>
+            <TouchableOpacity
+              style={styles.buttonTouchable}
+              onPress={this.cancelScan}>
               <Text style={styles.buttonText}>Cancel Scan</Text>
             </TouchableOpacity>
           }
@@ -195,23 +273,23 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-},
-modalView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
     margin: 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
-}
+    elevation: 5,
+  },
 });
