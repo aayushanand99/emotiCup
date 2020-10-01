@@ -119,7 +119,7 @@ export default class Dispense extends Component {
                                         paddingVertical: 5
                                     }}
                                 />  
-                                <Text>Processing Dispence ...</Text>
+                                <Text>Processing...</Text>
 
                             </View>
                         </View>

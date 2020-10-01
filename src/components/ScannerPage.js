@@ -144,7 +144,7 @@ export default class ScannerPage extends Component {
                                 }}
                             />  
                         </View>
-                        <Text>Processing scanner ...</Text>
+                        <Text>Processing...</Text>
                     </View>
                 </View>
             </Modal>

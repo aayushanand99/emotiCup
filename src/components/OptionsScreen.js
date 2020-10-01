@@ -125,6 +125,9 @@ export default class OptionsScreen extends Component {
         this.setState({
             spinner: true,
         })
+
+        console.log("prduct pressed");
+
         fetch(data.url).then(response => {
             this.setState({
                 spinner: false,
@@ -173,11 +176,12 @@ export default class OptionsScreen extends Component {
             return keys[el.key] == true;
         });
         return (
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
                 <Modal
                 animationType="slide"
                 transparent={true}
                 visible={this.state.spinner}
+
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
@@ -192,7 +196,7 @@ export default class OptionsScreen extends Component {
                                     }}
                                 />  
                             </View>
-                            <Text>Processing products ...</Text>
+                            <Text>Processing...</Text>
                         </View>
                     </View>
                 </Modal>
@@ -202,7 +206,9 @@ export default class OptionsScreen extends Component {
                         numColumns={2}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={{ flex: 1, flexDirection: 'column', height: (ITEM_WIDTH) / 2 }}
-                                onPress={() => this.callApi(item)} key={item.key}>
+                                onPress={this.callApi(item)} key={item.key}
+                                disabled={this.state.spinner}
+                                >
                                 <Image
                                     style={{
                                         width: (ITEM_WIDTH) / 2, height: "100%", justifyContent: 'center',
@@ -212,9 +218,10 @@ export default class OptionsScreen extends Component {
                                 />
                             </TouchableOpacity>
                         )}
+                        keyExtractor={(item) => item.key}
                     />
                     : null}
-            </ScrollView >
+            </View >
         )
     }
 }

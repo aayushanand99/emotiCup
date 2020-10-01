@@ -11,4 +11,4 @@ export const wifiDisconnect = (ssid) => IOSWifiManager.disconnectFromSSID(ssid);
 
 export const wifiCurrentSSID = () => IOSWifiManager.currentSSID();
 
-const wifiSettingsURL = IOSWifiManager.settingsURL;
+//const wifiSettingsURL = IOSWifiManager.settingsURL;

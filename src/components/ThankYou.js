@@ -69,20 +69,20 @@ export default class ThankYou extends Component {
                 />
                 <Text style={styles.subTextTitle}>Brewing Memories</Text>
             </View>
-            <View style={styles.centeredView}>
+            <View style={styles.thankView}>
               <Text style={styles.thankYou}>ThankYou</Text>
-            </View>
-            
-            <View style={styles.centeredView}>
-                <Image
+              <Image
                     source={require("../../assets/images/iconSmile.jpg")}
                     resizeMode={'contain'}
                     style={{
                         width: width*0.5,
                         height: 200,
-                        paddingVertical: 10
                     }}
                 />  
+            </View>
+            
+            <View style={styles.centeredView}>
+                
             </View>
         </View>
       );
@@ -114,14 +114,17 @@ export default class ThankYou extends Component {
       centeredView: {
         flex: 1,
         alignItems: "center",
-        marginTop: 13
     },
     thankYou: {
       fontWeight: '500',
       fontFamily: 'DessauMedium',
-      fontSize: 50,
+      fontSize: 20,
       color: colors.black,
       marginTop: 10
-      }
+      },
+    thankView: {
+      flex: 1,
+      alignItems: 'center'
+    }
     
   });
