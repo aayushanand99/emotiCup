@@ -97,7 +97,7 @@ export default class ThankYou extends Component {
       subTextTitle: {
         fontSize: 18,
         position: 'absolute',
-        top: 70,
+        top: '60%',
         right: 120,
       },
       coverImageContainer: {

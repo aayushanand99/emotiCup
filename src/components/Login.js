@@ -9,6 +9,7 @@ import {
   Dimensions,
   Image,
   Keyboard,
+  Platform,
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -183,7 +184,9 @@ export default class Login extends Component {
   };
   render() {
     return (
-      <KeyboardAvoidingView style={{flex: 1, width: '100%'}} behavior="padding">
+      <KeyboardAvoidingView
+        style={{flex: 1, width: '100%'}}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <TouchableOpacity
           style={styles.container}
           onPress={() => Keyboard.dismiss()}>
@@ -240,7 +243,7 @@ const styles = StyleSheet.create({
   subTextTitle: {
     fontSize: 18,
     position: 'absolute',
-    top: 70,
+    top: '60%',
     right: 120,
   },
   smileIcon: {
@@ -264,7 +267,7 @@ const styles = StyleSheet.create({
     width: '95%',
     // backgroundColor: 'red',
     fontSize: 25,
-    color: colors.black
+    color: colors.black,
   },
   loginbutton: {
     marginTop: 10,

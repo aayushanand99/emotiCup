@@ -32,7 +32,8 @@ export default class Dispense extends Component {
 
     componentDidMount() {
         BackgroundTimer.stopBackgroundTimer();
-        this.dispenseProduct();
+        this.progress();
+        //this.dispenseProduct();
     }
 
 
@@ -52,10 +53,10 @@ export default class Dispense extends Component {
           }, 1000);
       }
 
-    dispenseProduct = () => {
-        this.progress();
-        fetch(this.selectedProduct.url);
-    }
+    // dispenseProduct = () => {
+    //     this.progress();
+    //     fetch(this.selectedProduct.url);
+    // }
 
     cancelDispense() {
         console.log('dispense stopped');
@@ -101,7 +102,7 @@ export default class Dispense extends Component {
     render() {
       const data = { keys: { key1: true, key2: true, key3: true}};
       return (
-        <View style={styles.container}>
+        <View style={{flex: 1, backgroundColor: colors.white}}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -109,7 +110,6 @@ export default class Dispense extends Component {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <View>
                                 <Image
                                     source={require("../../assets/images/cupLoader.gif")}
                                     resizeMode={'contain'}
@@ -120,8 +120,6 @@ export default class Dispense extends Component {
                                     }}
                                 />  
                                 <Text>Processing...</Text>
-
-                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -184,7 +182,7 @@ export default class Dispense extends Component {
     subTextTitle: {
       fontSize: 18,
       position: 'absolute',
-      top: 70,
+      top: '60%',
       right: 120,
     },
     coverImageContainer: {
@@ -241,26 +239,5 @@ export default class Dispense extends Component {
         justifyContent: 'center',
     },
 
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-    },
-    modalView: {
-        margin: 10,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 10,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
-    }
   });
   

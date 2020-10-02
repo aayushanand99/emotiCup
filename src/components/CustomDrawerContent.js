@@ -129,7 +129,7 @@ const customDrawerContent = function (props) {
             source={require('../../assets/images/scanIcon.png')}
             resizeMode={'contain'}
             style={{
-              height: 150,
+              height: Platform.OS === 'ios' ? 150 : 130,
               width: 200,
             }}
           />

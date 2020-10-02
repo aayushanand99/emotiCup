@@ -9,11 +9,19 @@ import {
   Dimensions,
   Image,
   Alert,
+  Platform,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Toast from 'react-native-simple-toast';
 import BackgroundTimer from 'react-native-background-timer';
-import {requestMultiple, PERMISSIONS, openSettings} from 'react-native-permissions';
+import {
+  requestMultiple,
+  PERMISSIONS,
+  openSettings,
+  request,
+  check,
+  RESULTS,
+} from 'react-native-permissions';
 
 import Header from './Header';
 
@@ -28,31 +36,86 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    requestMultiple([PERMISSIONS.IOS.CAMERA]).then(
-      (statuses) => {
-        if(statuses[PERMISSIONS.IOS.CAMERA] !== 'granted') {
+    let that = this;
+    if (Platform.OS === 'ios') {
+      requestMultiple([PERMISSIONS.IOS.CAMERA]).then((statuses) => {
+        if (statuses[PERMISSIONS.IOS.CAMERA] !== 'granted') {
           Alert.alert(
-            "",
-            "Camera permission required",
+            '',
+            'Camera permission required',
             [
               {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
               },
-              { text: "Settings", onPress: () => openSettings().catch(() => console.warn('cannot open settings')) }
+              {
+                text: 'Settings',
+                onPress: () =>
+                  openSettings().catch(() =>
+                    console.warn('cannot open settings'),
+                  ),
+              },
             ],
-            { cancelable: false }
+            {cancelable: false},
           );
         }
-      },
-    );
+      });
+    } else {
+      check(PERMISSIONS.ANDROID.CAMERA)
+        .then((result) => {
+          switch (result) {
+            case RESULTS.UNAVAILABLE:
+              console.log(
+                'This feature is not available (on this device / in this context)',
+              );
+              break;
+            case RESULTS.DENIED:
+              request(PERMISSIONS.ANDROID.CAMERA).then((result) => {
+                if (result != RESULTS.GRANTED) {
+                  that.showCamerPermissionRequiredAlert();
+                }
+              });
+              break;
+            case RESULTS.GRANTED:
+              console.log('The permission is granted');
+              break;
+            case RESULTS.BLOCKED:
+              that.showCamerPermissionRequiredAlert();
+              break;
+          }
+        })
+        .catch((error) => {
+          Toast.show('Permission error');
+        });
+    }
     BackgroundTimer.stopBackgroundTimer();
-    if(this.props.route.params) {
-      if(this.props.route.params.error)
-      Toast.show(this.props.route.params.error, Toast.LONG)
+    if (this.props.route.params) {
+      if (this.props.route.params.error)
+        Toast.show(this.props.route.params.error, Toast.LONG);
     }
   }
+
+  showCamerPermissionRequiredAlert = () => {
+    Alert.alert(
+      '',
+      'Camera permission required',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Settings',
+          onPress: () =>
+            openSettings().catch(() => console.warn('cannot open settings')),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   _renderCarouselImage = ({item, index}) => {
     return (
       <Image
@@ -135,13 +198,14 @@ export default class Home extends Component {
             alignItems: 'center',
             overflow: 'hidden',
             justifyContent: 'center',
+            // backgroundColor: 'red',
           }}
           onPress={this.openScanner}>
           <Image
             source={require('../../assets/images/scanIcon.png')}
             resizeMode={'contain'}
             style={{
-              height: 150,
+              height: Platform.OS === 'ios' ? 150 : 130,
               width: 200,
             }}
           />
@@ -172,7 +236,7 @@ const styles = StyleSheet.create({
   subTextTitle: {
     fontSize: 18,
     position: 'absolute',
-    top: 80,
+    top: '60%',
     right: 120,
   },
   coverImageContainer: {

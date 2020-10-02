@@ -120,7 +120,7 @@ export default class OptionsScreen extends Component {
     }
 
 
-    callApi = (data) => {
+    callApi(data) {
 
         this.setState({
             spinner: true,
@@ -140,6 +140,7 @@ export default class OptionsScreen extends Component {
                         routes: [{ name: "Dispense", params: { item: data, ssid: this.state.ssid } }]
                     }),
                 );
+                return 1;
             }
             else {
                 this.setState({
@@ -206,7 +207,7 @@ export default class OptionsScreen extends Component {
                         numColumns={2}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={{ flex: 1, flexDirection: 'column', height: (ITEM_WIDTH) / 2 }}
-                                onPress={this.callApi(item)} key={item.key}
+                                onPress={() => this.callApi(item)} key={item.key}
                                 disabled={this.state.spinner}
                                 >
                                 <Image
