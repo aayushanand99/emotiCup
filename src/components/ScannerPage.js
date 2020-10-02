@@ -150,7 +150,7 @@ export default class ScannerPage extends Component {
     const QR_Code = JSON.parse(e.data);
     console.log('on successs');
 
-    this.connectToWifi('Aayush', '1223334444', QR_Code.keys);
+    this.connectToWifi(QR_Code.ssid, QR_Code.password, QR_Code.keys);
   };
 
   connectToWifi = async (name, password, keys) => {
