@@ -202,26 +202,27 @@ export default class ScannerPage extends Component {
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.spinner}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View>
-                <Image
-                  source={require('../../assets/images/cupLoader.gif')}
-                  resizeMode={'contain'}
-                  style={{
-                    width: width * 0.5,
-                    height: 100,
-                    paddingVertical: 5,
-                  }}
-                />
-              </View>
-              <Text>Processing scanner ...</Text>
-            </View>
-          </View>
-        </Modal>
+            animationType="slide"
+            transparent={true}
+            visible={this.state.spinner}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View>
+                            <Image
+                                source={require("../../assets/images/cupLoader.gif")}
+                                resizeMode={'contain'}
+                                style={{
+                                    width: width*0.5,
+                                    height: 100,
+                                    paddingVertical: 5
+                                }}
+                            />  
+                        </View>
+                        <Text>Processing...</Text>
+                    </View>
+                </View>
+            </Modal>
         <QRCodeScanner
           onRead={this.onSuccess}
           //flashMode={RNCamera.Constants.FlashMode.torch}

@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
   subTextTitle: {
     fontSize: 18,
     position: 'absolute',
-    top: 80,
+    top: '60%',
     right: 120,
   },
   coverImageContainer: {
