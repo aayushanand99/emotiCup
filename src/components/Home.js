@@ -19,7 +19,7 @@ import {
   PERMISSIONS,
   openSettings,
   request,
-  check,
+  checkMultiple,
   RESULTS,
 } from 'react-native-permissions';
 
@@ -37,6 +37,7 @@ export default class Home extends Component {
 
   componentDidMount() {
     let that = this;
+    let permissionsToRequest = [];
     if (Platform.OS === 'ios') {
       requestMultiple([PERMISSIONS.IOS.CAMERA]).then((statuses) => {
         if (statuses[PERMISSIONS.IOS.CAMERA] !== 'granted') {
@@ -62,32 +63,76 @@ export default class Home extends Component {
         }
       });
     } else {
-      check(PERMISSIONS.ANDROID.CAMERA)
-        .then((result) => {
-          switch (result) {
-            case RESULTS.UNAVAILABLE:
-              console.log(
-                'This feature is not available (on this device / in this context)',
-              );
-              break;
-            case RESULTS.DENIED:
-              request(PERMISSIONS.ANDROID.CAMERA).then((result) => {
-                if (result != RESULTS.GRANTED) {
-                  that.showCamerPermissionRequiredAlert();
-                }
-              });
-              break;
-            case RESULTS.GRANTED:
-              console.log('The permission is granted');
-              break;
-            case RESULTS.BLOCKED:
-              that.showCamerPermissionRequiredAlert();
-              break;
-          }
-        })
-        .catch((error) => {
-          Toast.show('Permission error');
-        });
+      checkMultiple([
+        PERMISSIONS.ANDROID.CAMERA,
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+      ]).then((statuses) => {
+        switch (statuses[PERMISSIONS.ANDROID.CAMERA]) {
+          case RESULTS.UNAVAILABLE:
+            console.log(
+              'This feature is not available (on this device / in this context)',
+            );
+            break;
+          case RESULTS.DENIED:
+            permissionsToRequest.push(PERMISSIONS.ANDROID.CAMERA);
+            // request(PERMISSIONS.ANDROID.CAMERA).then((result) => {
+            //   if (result != RESULTS.GRANTED) {
+            //     that.showPermissionRequiredAlert(PERMISSIONS.ANDROID.CAMERA);
+            //   }
+            // });
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            that.showPermissionRequiredAlert(PERMISSIONS.ANDROID.CAMERA);
+            break;
+        }
+        switch (statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]) {
+          case RESULTS.UNAVAILABLE:
+            console.log(
+              'This feature is not available (on this device / in this context)',
+            );
+            break;
+          case RESULTS.DENIED:
+            permissionsToRequest.push(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+            // request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then(
+            //   (result) => {
+            //     if (result != RESULTS.GRANTED) {
+            //       that.showPermissionRequiredAlert(
+            //         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+            //       );
+            //     }
+            //   },
+            // );
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            that.showPermissionRequiredAlert(
+              PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+            );
+            break;
+        }
+        if (permissionsToRequest.length > 0) {
+          requestMultiple(permissionsToRequest)
+            .then((statuses) => {
+              if (statuses[permissionsToRequest[0]] != RESULTS.GRANTED) {
+                that.showPermissionRequiredAlert(permissionsToRequest[0]);
+              }
+              if (
+                permissionsToRequest[1] &&
+                statuses[permissionsToRequest[1]] != RESULTS.GRANTED
+              ) {
+                that.showPermissionRequiredAlert(permissionsToRequest[1]);
+              }
+            })
+            .catch((error) => {
+              Toast.show('Permission error');
+            });
+        }
+      });
     }
     BackgroundTimer.stopBackgroundTimer();
     if (this.props.route.params) {
@@ -96,10 +141,16 @@ export default class Home extends Component {
     }
   }
 
-  showCamerPermissionRequiredAlert = () => {
+  showPermissionRequiredAlert = (type) => {
+    let title = '';
+    if (type === PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION) {
+      title = 'Location permission is required to switch Wifi';
+    } else {
+      title = 'Camera permission required';
+    }
     Alert.alert(
       '',
-      'Camera permission required',
+      title,
       [
         {
           text: 'Cancel',

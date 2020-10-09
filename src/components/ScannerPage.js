@@ -167,7 +167,16 @@ export default class ScannerPage extends Component {
         this.props.navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{name: 'Options', params: {keys: keys, ssid: name}}],
+            routes: [
+              {
+                name: 'Options',
+                params: {
+                  keys: keys,
+                  ssid: name,
+                  currentSSID: this.state.currentSSID,
+                },
+              },
+            ],
           }),
         );
       } catch (error) {
@@ -176,7 +185,18 @@ export default class ScannerPage extends Component {
         this.props.navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{name: 'Home', params: {error: 'Connection failed'}}],
+            routes: [
+              {
+                name: 'Options',
+                params: {
+                  error: 'Connection failed',
+                  ssid: name,
+                  password,
+                  keys: keys,
+                  currentSSID: this.state.currentSSID,
+                },
+              },
+            ],
           }),
         );
       }
@@ -202,27 +222,26 @@ export default class ScannerPage extends Component {
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.spinner}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View>
-                            <Image
-                                source={require("../../assets/images/cupLoader.gif")}
-                                resizeMode={'contain'}
-                                style={{
-                                    width: width*0.5,
-                                    height: 100,
-                                    paddingVertical: 5
-                                }}
-                            />  
-                        </View>
-                        <Text>Processing...</Text>
-                    </View>
-                </View>
-            </Modal>
+          animationType="slide"
+          transparent={true}
+          visible={this.state.spinner}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View>
+                <Image
+                  source={require('../../assets/images/cupLoader.gif')}
+                  resizeMode={'contain'}
+                  style={{
+                    width: width * 0.5,
+                    height: 100,
+                    paddingVertical: 5,
+                  }}
+                />
+              </View>
+              <Text>Processing...</Text>
+            </View>
+          </View>
+        </Modal>
         <QRCodeScanner
           onRead={this.onSuccess}
           //flashMode={RNCamera.Constants.FlashMode.torch}
