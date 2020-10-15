@@ -191,7 +191,7 @@ export default class Login extends Component {
           onPress={() => Keyboard.dismiss()}>
           <View>
             <Image
-              source={require('../../assets/images/logo.png')}
+              source={require('../../assets/images/logo.jpeg')}
               style={{
                 width: width * 0.9,
                 height: height * 0.15,
@@ -201,7 +201,7 @@ export default class Login extends Component {
               }}
               resizeMode={'contain'}
             />
-            <Text style={styles.subTextTitle}>Brewing Memories</Text>
+            {/* <Text style={styles.subTextTitle}>Brewing Memories</Text> */}
           </View>
           <View
             style={{

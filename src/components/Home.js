@@ -187,7 +187,7 @@ export default class Home extends Component {
         <Header drawerNavigation={this.props.navigation} />
         <View>
           <Image
-            source={require('../../assets/images/logo.png')}
+            source={require('../../assets/images/logo.jpeg')}
             style={{
               width: width * 0.9,
               height: height * 0.15,
@@ -197,7 +197,7 @@ export default class Home extends Component {
             }}
             resizeMode={'contain'}
           />
-          <Text style={styles.subTextTitle}>Brewing Memories</Text>
+          {/* <Text style={styles.subTextTitle}>Brewing Memories</Text> */}
         </View>
         <View style={styles.coverImageContainer}>
           <Carousel

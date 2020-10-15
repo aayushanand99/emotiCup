@@ -250,7 +250,7 @@ export default class ScannerPage extends Component {
           }}
           topContent={
             <Image
-              source={require('../../assets/images/logo.png')}
+              source={require('../../assets/images/logo.jpeg')}
               style={{
                 width: width * 0.9,
                 height: height * 0.15,
@@ -289,7 +289,8 @@ const styles = StyleSheet.create({
     color: 'rgb(0,122,255)',
   },
   buttonTouchable: {
-    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   centeredView: {
     flex: 1,

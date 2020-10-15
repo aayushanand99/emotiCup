@@ -10,6 +10,7 @@ import {
   Modal,
   Text,
   Alert,
+  Platform,
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -133,7 +134,8 @@ export default class OptionsScreen extends Component {
   static getDerivedStateFromProps(props, state) {
     if (
       props?.route?.params?.error === 'Connection failed' &&
-      state.isConnected === false
+      state.isConnected === false &&
+      Platform.OS === 'android'
     ) {
       return {
         showManualWifiSettings: true,
@@ -184,6 +186,7 @@ export default class OptionsScreen extends Component {
           spinner: false,
         });
         const statusCode = response.status;
+        console.log(statusCode);
         if (statusCode == 200) {
           this.props.navigation.dispatch(
             CommonActions.reset({
@@ -209,6 +212,7 @@ export default class OptionsScreen extends Component {
         }
       })
       .catch((error) => {
+        console.log(error);
         this.setState({
           spinner: false,
         });
