@@ -65,7 +65,6 @@ export default class ThankYou extends Component {
           {/* <Text style={styles.subTextTitle}>Brewing Memories</Text> */}
         </View>
         <View style={styles.thankView}>
-          <Text style={styles.thankYou}>ThankYou</Text>
           <Image
             source={require('../../assets/images/iconSmile.jpeg')}
             resizeMode={'contain'}

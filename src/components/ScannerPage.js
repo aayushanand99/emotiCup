@@ -180,6 +180,7 @@ export default class ScannerPage extends Component {
           }),
         );
       } catch (error) {
+        Toast.show('connection unSuccessfull' + error);
         console.log(error);
         this.setState({spinner: false});
         this.props.navigation.dispatch(

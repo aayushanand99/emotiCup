@@ -148,7 +148,7 @@ export default class Dispense extends Component {
           />
         </View>
         <View style={styles.progressContainer}>
-          <Progress.Bar progress={this.state.progress} width={width * 0.8} />
+          <Progress.Bar progress={this.state.progress} width={width * 0.8} color="#EBB53D" borderColor="#EBB53D" />
         </View>
         <View style={styles.imageContainer}>
           <TouchableOpacity onPress={this.cancelDispense.bind(this)}>

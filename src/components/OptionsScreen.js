@@ -18,6 +18,9 @@ import BackgroundTimer from 'react-native-background-timer';
 import Toast from 'react-native-simple-toast';
 import WifiManager from 'react-native-wifi-reborn';
 import {Button, Dialog, Paragraph} from 'react-native-paper';
+import {
+  openSettings
+} from 'react-native-permissions';
 
 import AndroidOpenSettings from 'react-native-android-open-settings';
 const {width, height} = Dimensions.get('screen');
@@ -134,8 +137,7 @@ export default class OptionsScreen extends Component {
   static getDerivedStateFromProps(props, state) {
     if (
       props?.route?.params?.error === 'Connection failed' &&
-      state.isConnected === false &&
-      Platform.OS === 'android'
+      state.isConnected === false
     ) {
       return {
         showManualWifiSettings: true,
@@ -228,11 +230,27 @@ export default class OptionsScreen extends Component {
       });
   }
 
+   openSettingDialog = () => {
+      this.setState({showManualWifiSettings : false, isConnected: null}, () => {
+        Toast.show("inside" + this.state.showManualWifiSettings)
+        if (Platform.OS === 'ios') {
+        openSettings().catch(() =>
+            console.warn('cannot open settings')
+          )
+
+      } else {
+        AndroidOpenSettings.wifiSettings()
+      }
+      })
+    
+  }
+
   render() {
     let {keys} = this.state;
     let newData = this.data.filter((el) => {
       return keys[el.key] == true;
     });
+    let that = this;
     return (
       <View showsVerticalScrollIndicator={false}>
         <Modal
@@ -293,7 +311,7 @@ export default class OptionsScreen extends Component {
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => this.retryWifiChange()}>Retry</Button>
-            <Button onPress={() => AndroidOpenSettings.wifiSettings()}>
+            <Button onPress={this.openSettingDialog}>
               Go to Wifi Settings
             </Button>
           </Dialog.Actions>
