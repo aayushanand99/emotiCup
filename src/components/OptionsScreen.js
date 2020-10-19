@@ -11,6 +11,7 @@ import {
   Text,
   Alert,
   Platform,
+  Linking
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -234,9 +235,7 @@ export default class OptionsScreen extends Component {
       this.setState({showManualWifiSettings : false, isConnected: null}, () => {
         Toast.show("inside" + this.state.showManualWifiSettings)
         if (Platform.OS === 'ios') {
-        openSettings().catch(() =>
-            console.warn('cannot open settings')
-          )
+          Linking.openURL("App-Prefs:root=WIFI");
 
       } else {
         AndroidOpenSettings.wifiSettings()

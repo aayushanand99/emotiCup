@@ -31,7 +31,7 @@ export default class ThankYou extends Component {
           routes: [{name: 'Home', params: {error: 'Visit again!!!'}}],
         }),
       );
-    }, 5000);
+    }, 2000);
   }
 
   disconnectWifi = async () => {
@@ -69,8 +69,8 @@ export default class ThankYou extends Component {
             source={require('../../assets/images/iconSmile.jpeg')}
             resizeMode={'contain'}
             style={{
-              width: width * 0.5,
-              height: 200,
+              width: width * 0.75,
+              height: 300,
             }}
           />
         </View>
@@ -117,5 +117,6 @@ const styles = StyleSheet.create({
   thankView: {
     flex: 1,
     alignItems: 'center',
+    paddingTop: 100
   },
 });
