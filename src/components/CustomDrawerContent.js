@@ -21,7 +21,7 @@ import {CommonActions} from '@react-navigation/native';
 const customDrawerContent = function (props) {
   return (
     <View style={{flex: 1, width: '100%'}}>
-      <View style={styles.logoContainer} />
+      {/* <View style={styles.logoContainer} /> */}
       <View style={styles.appLinks}>
         {/* <TouchableOpacity
           style={styles.menuItem}
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   },
   appLinks: {
     flex: 5,
+    marginTop: 50,
     // backgroundColor: 'blue',
   },
   menuItem: {

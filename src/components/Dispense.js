@@ -138,7 +138,7 @@ export default class Dispense extends Component {
         </View>
         <View style={styles.imageContainer}>
           <Image
-            source={this.selectedProduct.image}
+            source={require('../assets/images/1.jpg')}
             resizeMode={'contain'}
             style={{
               width: width * 0.5,
@@ -148,12 +148,17 @@ export default class Dispense extends Component {
           />
         </View>
         <View style={styles.progressContainer}>
-          <Progress.Bar progress={this.state.progress} width={width * 0.8} color="#EBB53D" borderColor="#EBB53D" />
+          <Progress.Bar
+            progress={this.state.progress}
+            width={width * 0.8}
+            color="#EBB53D"
+            borderColor="#EBB53D"
+          />
         </View>
         <View style={styles.imageContainer}>
           <TouchableOpacity onPress={this.cancelDispense.bind(this)}>
             <Image
-              source={require('../../assets/images/iconStop.png')}
+              source={require('../../assets/images/stop.png')}
               resizeMode={'contain'}
               style={{
                 width: width * 0.3,
@@ -162,8 +167,38 @@ export default class Dispense extends Component {
               }}
             />
           </TouchableOpacity>
-          <Text style={{color: 'red'}}>Stop</Text>
         </View>
+        {this.state.displayMenuBtn && (
+          <View
+            style={{
+              flexDirection: 'row',
+              // backgroundColor: 'red',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity onPress={this.cancelDispense.bind(this)}>
+              <Image
+                source={require('../../assets/images/GoToMenu.png')}
+                resizeMode={'contain'}
+                style={{
+                  width: width * 0.3,
+                  height: 100,
+                  paddingVertical: 10,
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.cancelDispense.bind(this)}>
+              <Image
+                source={require('../../assets/images/addAnotherCup.png')}
+                resizeMode={'contain'}
+                style={{
+                  width: width * 0.3,
+                  height: 100,
+                  paddingVertical: 10,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
@@ -185,9 +220,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   imageContainer: {
-    height: width * 0.5,
-    width: width * 0.5,
-    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -58,24 +58,26 @@ export default class ThankYou extends Component {
               height: height * 0.15,
               alignSelf: 'center',
               // backgroundColor: 'red',
-              top: 0,
+              top: 100,
             }}
             resizeMode={'contain'}
           />
           {/* <Text style={styles.subTextTitle}>Brewing Memories</Text> */}
         </View>
-        <View style={styles.thankView}>
-          <Image
-            source={require('../../assets/images/iconSmile.jpeg')}
-            resizeMode={'contain'}
-            style={{
-              width: width * 0.75,
-              height: 300,
-            }}
-          />
-        </View>
-
-        <View style={styles.centeredView}></View>
+        {/* <View style={styles.thankView}> */}
+        <Image
+          source={require('../../assets/images/iconSmile.jpeg')}
+          resizeMode={'contain'}
+          style={{
+            position: 'absolute',
+            top: height / 2 - 200,
+            alignSelf: 'center',
+            width: width * 0.75,
+            height: 300,
+            // backgroundColor: 'red',
+          }}
+        />
+        {/* </View> */}
       </View>
     );
   }
@@ -115,8 +117,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   thankView: {
-    flex: 1,
     alignItems: 'center',
-    paddingTop: 100
+    justifyContent: 'center',
+    backgroundColor: 'red',
+    // position: 'absolute',
+    // paddingTop: 100,
   },
 });

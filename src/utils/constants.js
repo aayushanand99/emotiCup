@@ -8,6 +8,17 @@ export default {
   Profile: 'Profile',
   FAQ_DATA: [
     {
+      question:
+        'What if my app is not working properly and there and some issues in connecting?',
+      answer:
+        'Please check your app updates in the play store by scanning the QR code for update on the machine.',
+    },
+    {
+      question: 'Can I choose two cups at a time?',
+      answer:
+        'Yes have to select one more cup icon at the dispensing page or you can select the menu back on the same page to choose the other products in the menu.',
+    },
+    {
       question: 'Why my phone is not connecting to Wi-Fi automatically?',
       answer:
         'Try again by scanning the QR Code or please connect the Wi-Fi manually, Probably some Android Versions deny permissions.',
