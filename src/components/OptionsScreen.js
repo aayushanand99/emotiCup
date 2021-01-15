@@ -101,21 +101,21 @@ export default class OptionsScreen extends Component {
         image: require('../assets/images/9.jpg'),
         name: 'Hot Milk',
         url: 'http://192.168.1.101/milk',
-        seconds: 7,
+        seconds: 20,
       },
       {
         key: 'key10',
         image: require('../assets/images/10.jpg'),
         name: 'Hot Water',
         url: 'http://192.168.1.101/hot_water',
-        seconds: 5,
+        seconds: 20,
       },
       {
         key: 'key11',
         image: require('../assets/images/11.jpg'),
         name: 'Steam',
         url: 'http://192.168.1.101/steam',
-        seconds: 5,
+        seconds: 20,
       },
     ];
 
@@ -132,7 +132,7 @@ export default class OptionsScreen extends Component {
             routes: [{name: 'Home', params: {error: 'Selection Timeout'}}],
           }),
         );
-      }, 15000);
+      }, this.props.route.params.timerDuration);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -162,6 +162,15 @@ export default class OptionsScreen extends Component {
         this.setState({showManualWifiSettings: false, isConnected: true}, () =>
           Toast.show('connection Successfull'),
         );
+        // BackgroundTimer.runBackgroundTimer(() => {
+        //   console.log('Product timer');
+        //   this.props.navigation.dispatch(
+        //     CommonActions.reset({
+        //       index: 1,
+        //       routes: [{name: 'Home', params: {error: 'Selection Timeout'}}],
+        //     }),
+        //   );
+        // }, this.props.route.params.timerDuration);
       } else {
         this.setState({showManualWifiSettings: false, isConnected: true}, () =>
           Toast.show('connection Successfull'),
@@ -195,7 +204,7 @@ export default class OptionsScreen extends Component {
             CommonActions.reset({
               index: 0,
               routes: [
-                {name: 'Dispense', params: {item: data, ssid: this.state.ssid}},
+                {name: 'Dispense', params: {item: data, ssid: this.state.ssid, keys: this.props.route.params.keys}},
               ],
             }),
           );

@@ -19,6 +19,7 @@ import colors from '../utils/colors';
 
 const {width, height} = Dimensions.get('screen');
 const credentials = {
+  one: 'one',
   EC0001: 'BM1000',
   EC0002: 'BM2000',
   EC0003: 'BM3000',

@@ -174,6 +174,7 @@ export default class ScannerPage extends Component {
                   keys: keys,
                   ssid: name,
                   currentSSID: this.state.currentSSID,
+                  timerDuration: 15000
                 },
               },
             ],
@@ -195,6 +196,7 @@ export default class ScannerPage extends Component {
                   password,
                   keys: keys,
                   currentSSID: this.state.currentSSID,
+                  timerDuration: 15000
                 },
               },
             ],
@@ -206,6 +208,7 @@ export default class ScannerPage extends Component {
       Toast.show('Connection succesfull');
       this.props.navigation.navigate('Options', {
         keys: keys,
+        timerDuration: 15000
       });
     }
   };

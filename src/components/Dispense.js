@@ -25,6 +25,7 @@ export default class Dispense extends Component {
     this.state = {
       progress: 0,
       ssid: props.route.params.ssid,
+      keys: props.route.params.keys,
       spinnerDispense: false,
     };
   }
@@ -38,12 +39,14 @@ export default class Dispense extends Component {
   progress() {
     console.log('dispense');
     let progress = 0;
-    this.setState({progress});
+    this.setState({progress, displayMenuBtn: 0});
     this.intervalID = setInterval(() => {
       progress = this.state.progress;
-      progress += 0.08333333;
+      progress += this.selectedProduct.seconds/100;
       if (progress > 1) {
-        progress = 1;
+        this.setState({displayMenuBtn: 1})
+      }
+      if(progress > 1.8) {
         clearInterval(this.intervalID);
         this.completeDispense();
       }
@@ -59,10 +62,11 @@ export default class Dispense extends Component {
   cancelDispense() {
     console.log('dispense stopped');
 
-    this.setState({
-      spinnerDispense: true,
-    });
-    fetch(this.selectedProduct.url)
+    if(this.state.progress<1) {
+      this.setState({
+        spinnerDispense: true,
+      });
+      fetch(this.selectedProduct.url)
       .then((response) => {
         this.setState({
           spinnerDispense: false,
@@ -70,7 +74,7 @@ export default class Dispense extends Component {
         const statusCode = response.status;
         if (statusCode == 200) {
           this.setState({
-            progress: 2,
+            progress: 1,
           });
         } else {
           this.setState({
@@ -85,11 +89,18 @@ export default class Dispense extends Component {
         });
         alert('Please wait.');
       });
+    } else {
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'ThankYou', params: {ssid: this.state.ssid}}],
+          }),
+        );
+    }
+    
   }
 
   completeDispense() {
-    console.log('dispense completed');
-    clearInterval(this.intervalID);
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -98,8 +109,52 @@ export default class Dispense extends Component {
     );
   }
 
+  goBackToMenu() {
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: 'Options',
+            params: {
+              keys: this.state.keys,
+              ssid: this.state.ssid,
+              timerDuration: 7000
+            },
+          },
+        ],
+      }),
+    );
+  }
+
+  addCup(){
+    this.setState({
+      spinnerDispense: true,
+    });
+    fetch(this.selectedProduct.url)
+    .then((response) => {
+      this.setState({
+        spinnerDispense: false,
+      });
+      const statusCode = response.status;
+      if (statusCode == 200) {
+        this.progress();
+      } else {
+        this.setState({
+          spinnerDispense: false,
+        });
+        alert('Please wait.');
+      }
+    })
+    .catch((error) => {
+      this.setState({
+        spinnerDispense: false,
+      });
+      alert('Please wait.');
+    });
+  }
+
   render() {
-    const data = {keys: {key1: true, key2: true, key3: true}};
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <Modal
@@ -168,14 +223,14 @@ export default class Dispense extends Component {
             />
           </TouchableOpacity>
         </View>
-        {this.state.displayMenuBtn && (
+        {this.state.displayMenuBtn? (
           <View
             style={{
               flexDirection: 'row',
               // backgroundColor: 'red',
               justifyContent: 'space-between',
             }}>
-            <TouchableOpacity onPress={this.cancelDispense.bind(this)}>
+            <TouchableOpacity onPress={this.goBackToMenu.bind(this)}>
               <Image
                 source={require('../../assets/images/GoToMenu.png')}
                 resizeMode={'contain'}
@@ -186,7 +241,7 @@ export default class Dispense extends Component {
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.cancelDispense.bind(this)}>
+            <TouchableOpacity onPress={this.addCup.bind(this)}>
               <Image
                 source={require('../../assets/images/addAnotherCup.png')}
                 resizeMode={'contain'}
@@ -198,7 +253,7 @@ export default class Dispense extends Component {
               />
             </TouchableOpacity>
           </View>
-        )}
+        ): null}
       </View>
     );
   }
